@@ -17,7 +17,7 @@ app.use(express.json());
 const sqlConfig = {
     user: 'galta',
     password: '*Galta123',
-    database: 'RentCar',
+    database: 'tiusr4pl_usuarios',
     server: 'tiusr4pl.cuc-carrera-ti.ac.cr.\MSSQLSERVER2019',
     pool: {
         max: 10,
