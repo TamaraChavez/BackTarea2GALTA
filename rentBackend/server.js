@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 const sqlConfig = {
-    user: 'sa',
-    password: '1598753',
+    user: 'galta',
+    password: '*Galta123',
     database: 'RentCar',
-    server: 'localhost',
+    server: 'tiusr4pl.cuc-carrera-ti.ac.cr.\MSSQLSERVER2019',
     pool: {
         max: 10,
         min: 0,
