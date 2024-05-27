@@ -45,11 +45,11 @@ sql.connect(sqlConfig)
 //USUARIOS
 app.post('/usuarios', async (req, res) => {
     try {
-        const { Usuario, Contrasena, NombreCompleto } = req.body;
+        const { Usuario, Contrasena } = req.body;
         console.log("Intentando insertar usuario:", Usuario);
 
 
-        const result = await sqlPool.query`EXEC CrearUsuario @Usuario=${Usuario}, @Contrasena=${Contrasena}, @NombreCompleto=${NombreCompleto}`;
+        const result = await sqlPool.query`EXEC CrearUsuario @Usuario=${Usuario}, @Contrasena=${Contrasena}`;
 
         console.log("Resultado de la inserción:", result);
         if (result.rowsAffected[0] > 0) {
