@@ -1,13 +1,12 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const sql = require('mssql');
 const cors = require('cors');
 
-
 // Inicialización de la aplicación Express
 const app = express();
 const port = 3001;
+
 app.use(cors({
     origin: 'http://localhost:3000'
 }));
@@ -18,7 +17,8 @@ const sqlConfig = {
     user: 'galta',
     password: '*Galta123',
     database: 'tiusr4pl_usuarios',
-    server: 'tiusr4pl.cuc-carrera-ti.ac.cr.\MSSQLSERVER2019',
+    server: 'tiusr4pl.cuc-carrera-ti.ac.cr',
+    port: 8443,
     pool: {
         max: 10,
         min: 0,
@@ -26,7 +26,8 @@ const sqlConfig = {
     },
     options: {
         encrypt: true, // Para Azure
-        trustServerCertificate: true // Cambiar a false en producción
+        trustServerCertificate: true, // Cambiar a false en producción
+        instanceName: 'MSSQLSERVER2019' // Añade el nombre de la instancia aquí
     }
 };
 
