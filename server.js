@@ -32,7 +32,7 @@ const sqlConfig = {
 };
 
 let sqlPool;
-
+//USUARIOS
 sql.connect(sqlConfig)
     .then(pool => {
         console.log('Conectado a SQL Server');
@@ -42,7 +42,60 @@ sql.connect(sqlConfig)
         console.error('Error de conexión a SQL Server:', err);
     });
 
-//USUARIOS
+    app.put('/usuarios/:id', async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { Usuario, Contrasena } = req.body;
+            console.log("Intentando modificar usuario con ID:", id);
+    
+            const result = await sqlPool.query`EXEC ModificarUsuario @Id=${id}, @Usuario=${Usuario}, @Contrasena=${Contrasena}`;
+    
+            console.log("Resultado de la modificación:", result);
+            if (result.rowsAffected[0] > 0) {
+                res.json({ message: 'Usuario modificado exitosamente' });
+            } else {
+                res.status(400).send({ message: 'No se pudo modificar el usuario.' });
+            }
+        } catch (err) {
+            console.error("Error en la operación:", err);
+            res.status(500).send({ message: err.message });
+        }
+    });
+    app.delete('/usuarios/:id', async (req, res) => {
+        try {
+            const { id } = req.params;
+            console.log("Intentando eliminar usuario con ID:", id);
+    
+            const result = await sqlPool.query`EXEC EliminarUsuario @Id=${id}`;
+    
+            console.log("Resultado de la eliminación:", result);
+            if (result.rowsAffected[0] > 0) {
+                res.json({ message: 'Usuario eliminado exitosamente' });
+            } else {
+                res.status(400).send({ message: 'No se pudo eliminar el usuario.' });
+            }
+        } catch (err) {
+            console.error("Error en la operación:", err);
+            res.status(500).send({ message: err.message });
+        }
+    });
+
+app.get('/usuarios', async (req, res) => {
+    try {
+        // Realiza la consulta para obtener todos los usuarios
+        const result = await sqlPool.query`SELECT * FROM Usuarios`;
+
+        // Revisa si se obtuvieron resultados
+        if (result.recordset.length > 0) {
+            res.json(result.recordset);
+        } else {
+            res.status(404).send({ message: 'No se encontraron usuarios.' });
+        }
+    } catch (err) {
+        console.error("Error en la operación:", err);
+        res.status(500).send({ message: err.message });
+    }
+});
 app.post('/usuarios', async (req, res) => {
     try {
         const { Usuario, Contrasena } = req.body;
