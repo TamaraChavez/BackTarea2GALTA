@@ -44,11 +44,11 @@ sql.connect(sqlConfig)
 
     app.put('/usuarios/:id', async (req, res) => {
         try {
-            const { id } = req.params;
+            
             const { Usuario, Contrasena } = req.body;
-            console.log("Intentando modificar usuario con ID:", id);
+            console.log("Intentando modificar usuario con nombre de usuario:", Usuario);
     
-            const result = await sqlPool.query`EXEC ModificarUsuario @Id=${id}, @Usuario=${Usuario}, @Contrasena=${Contrasena}`;
+            const result = await sqlPool.query`EXEC ModificarUsuario @Usuario=${Usuario}, @Contrasena=${Contrasena}`;
     
             console.log("Resultado de la modificación:", result);
             if (result.rowsAffected[0] > 0) {
