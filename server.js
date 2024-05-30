@@ -122,6 +122,12 @@ app.post('/login', async (req, res) => {
         return res.status(503).send({ message: 'Service Unavailable' });
     }
 
+    // Validar la contraseña para asegurarse de que tenga mayúsculas, minúsculas y al menos un carácter especial
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/;
+    if (!passwordRegex.test(contrasena)) {
+        return res.status(400).json({ message: 'La contraseña debe tener al menos una letra mayúscula, una letra minúscula y un carácter especial.' });
+    }
+
     try {
         const request = sqlPool.request();
         request.input('Usuario', sql.VarChar, usuario);
